@@ -7,7 +7,7 @@ dotenv.config();
 const app = express()
 app.use(cors());
 app.use(express.json())
-const port = process.env.PORT
+const port = process.env.PORT || 5000
 
 const uri = process.env.MONGODB_URI;
 
@@ -22,11 +22,12 @@ export async function connectToMongoDB() {
   try {
     await client.connect();
 
-    const db = client.db("mediqueue_ts");
+    const db = client.db("Mediqueue_TS");
     const tutorCollection = db.collection("tutors");
 
     app.post("/tutors", async (req, res) => {
       const tutorData = req.body;
+      console.log("tutorData", tutorData);
       const result = await tutorCollection.insertOne(tutorData);
       res.json(result);
     })
